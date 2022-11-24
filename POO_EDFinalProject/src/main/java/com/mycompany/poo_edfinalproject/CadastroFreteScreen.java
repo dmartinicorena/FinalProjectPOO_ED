@@ -6,6 +6,7 @@ package com.mycompany.poo_edfinalproject;
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,6 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
@@ -21,25 +24,26 @@ import java.util.logging.Logger;
 public class CadastroFreteScreen extends javax.swing.JFrame {
 
     ArrayList<Transportadora> listaFretes = new ArrayList();
-    File arquivo = new File("dados.txt");
-    
+    File arquivo = new File("cargasRecebidas.csv");
+
     public void refreshTela() {
         String aux = "";
         for (int i = 0; i < listaFretes.size(); i++) {
-            aux +="Cidade Destino: " + listaFretes.get(i).getEnderecoClienteDestino() + " ";
-            aux += listaFretes.get(i).getDistancaoCidadeDestino() +" km" + "\n";
-            aux +="Destinatario: " + listaFretes.get(i).getNomeClienteDestino() + "\n";
-            aux +="Remetente: " + listaFretes.get(i).getNomeRemetente() + "\n";
-            aux +="Volume da Carga: " + listaFretes.get(i).getVolumeCarga() +" M3" + "\n"+"\n";
+            aux += "Cidade Destino: " + listaFretes.get(i).getEnderecoClienteDestino() + " ";
+            aux += listaFretes.get(i).getDistancaoCidadeDestino() + " km" + "\n";
+            aux += "Destinatario: " + listaFretes.get(i).getNomeClienteDestino() + "\n";
+            aux += "Remetente: " + listaFretes.get(i).getNomeRemetente() + "\n";
+            aux += "Volume da Carga: " + listaFretes.get(i).getVolumeCarga() + " M³" + "\n";
+            aux += "Valor do Frete: " + listaFretes.get(i).getVolumeCarga() * 
+                    1.17 * listaFretes.get(i).getDistancaoCidadeDestino() + "\n\n";
         }
         txtAreaVerFretes.setText(aux);
         txtRemetente.setText("");
         txtDestinatario.setText("");
         txtVolCarga.setText("");
-        citySelector.setComponentZOrder(this, 1);
     }
-    
-    public void leituraArquivo(){
+
+    public void leituraArquivo() {
         FileReader fr = null;
         try {
             boolean existe = arquivo.exists();
@@ -78,13 +82,32 @@ public class CadastroFreteScreen extends javax.swing.JFrame {
         }
         refreshTela();
     }
-    
+
+    public void escreverArquivo() throws IOException {
+        boolean existe = arquivo.exists();
+        if (existe) {
+            arquivo.delete();
+        }
+        FileWriter fw = new FileWriter(arquivo, true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        for (Transportadora frete : listaFretes) {
+            bw.write(frete.getEnderecoClienteDestino() + ",");
+            bw.write(frete.getDistancaoCidadeDestino() + ",");
+            bw.write(frete.getNomeClienteDestino() + ",");
+            bw.write(frete.getNomeRemetente() + ",");
+            bw.write(frete.getVolumeCarga() + ",");
+            bw.newLine();
+        }
+        bw.close();
+        fw.close();
+        
+
+    }
+
     public CadastroFreteScreen() {
         initComponents();
         leituraArquivo();
-        
-        
-        
+
     }
 
     /**
@@ -148,6 +171,7 @@ public class CadastroFreteScreen extends javax.swing.JFrame {
 
         jScrollPane2.setBackground(new java.awt.Color(204, 204, 204));
 
+        txtAreaVerFretes.setEditable(false);
         txtAreaVerFretes.setBackground(new java.awt.Color(204, 255, 255));
         txtAreaVerFretes.setColumns(20);
         txtAreaVerFretes.setFont(new java.awt.Font("Eras Demi ITC", 0, 12)); // NOI18N
@@ -209,13 +233,23 @@ public class CadastroFreteScreen extends javax.swing.JFrame {
         txtVolCarga.setFont(new java.awt.Font("Eras Demi ITC", 0, 12)); // NOI18N
         txtVolCarga.setForeground(new java.awt.Color(51, 51, 51));
         txtVolCarga.setBorder(null);
+        txtVolCarga.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtVolCargaKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtVolCarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 300, 30));
 
         citySelector.setBackground(new java.awt.Color(255, 255, 255));
         citySelector.setFont(new java.awt.Font("Eras Demi ITC", 0, 12)); // NOI18N
         citySelector.setForeground(new java.awt.Color(102, 102, 102));
-        citySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione uma cidade", "Bage", "Pelotas", "Rio Grande" }));
+        citySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bage", "Pelotas", "Rio Grande" }));
         citySelector.setBorder(null);
+        citySelector.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                citySelectorKeyPressed(evt);
+            }
+        });
         jPanel1.add(citySelector, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 380, 300, -1));
 
         bgCadastrarFreteButton.setBackground(new java.awt.Color(0, 67, 86));
@@ -308,28 +342,64 @@ public class CadastroFreteScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cadastrarFreteButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarFreteButtonMouseEntered
-        bgCadastrarFreteButton.setBackground(new Color (127,224,251));
+        bgCadastrarFreteButton.setBackground(new Color(127, 224, 251));
         cadastrarFreteButton.setForeground(Color.BLACK);
     }//GEN-LAST:event_cadastrarFreteButtonMouseEntered
 
     private void cadastrarFreteButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarFreteButtonMouseExited
-        bgCadastrarFreteButton.setBackground(new Color (0, 67, 86));
+        bgCadastrarFreteButton.setBackground(new Color(0, 67, 86));
         cadastrarFreteButton.setForeground(Color.WHITE);
     }//GEN-LAST:event_cadastrarFreteButtonMouseExited
 
     private void voltarAoMenuButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voltarAoMenuButtonMouseEntered
-        bgVoltarAoMenuButton.setBackground(new Color (127,224,251));
+        bgVoltarAoMenuButton.setBackground(new Color(127, 224, 251));
         voltarAoMenuButton.setForeground(Color.BLACK);
     }//GEN-LAST:event_voltarAoMenuButtonMouseEntered
 
     private void voltarAoMenuButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voltarAoMenuButtonMouseExited
-        bgVoltarAoMenuButton.setBackground(new Color (0, 67, 86));
+        bgVoltarAoMenuButton.setBackground(new Color(0, 67, 86));
         voltarAoMenuButton.setForeground(Color.WHITE);
     }//GEN-LAST:event_voltarAoMenuButtonMouseExited
 
     private void cadastrarFreteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarFreteButtonMouseClicked
-        
+        try {
+            Transportadora carga = new Transportadora();
+            float distanca = switch (citySelector.getSelectedItem().toString()) {
+                case "Bage" ->
+                    distanca = 180;
+                case "Pelotas" ->
+                    distanca = 340;
+                case "Rio Grande" ->
+                    distanca = 400;
+                default ->
+                    throw new IllegalArgumentException("invalido");
+            };
+            carga.setEnderecoClienteDestino(citySelector.getSelectedItem().toString());
+            carga.setDistancaoCidadeDestino(distanca);
+            carga.setNomeClienteDestino(txtDestinatario.getText());
+            carga.setNomeRemetente(txtRemetente.getText());
+            carga.setVolumeCarga(Float.parseFloat(txtVolCarga.getText()));
+            
+            listaFretes.add(carga);
+            escreverArquivo();
+            refreshTela();
+        } catch (IOException ex) {
+            Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_cadastrarFreteButtonMouseClicked
+
+    private void citySelectorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_citySelectorKeyPressed
+        // JOptionPane.showMessageDialog(rootPane, "selected");
+    }//GEN-LAST:event_citySelectorKeyPressed
+
+    private void txtVolCargaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVolCargaKeyTyped
+        char c = evt.getKeyChar();
+
+        if ((c < '0' || c > '9') && (c == ',')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtVolCargaKeyTyped
 
     /**
      * @param args the command line arguments
