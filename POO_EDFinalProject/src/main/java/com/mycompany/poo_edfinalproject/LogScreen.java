@@ -197,7 +197,11 @@ public class LogScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPassMouseClicked
 
     private void enterButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enterButtonMouseClicked
-        // TODO add your handling code here:
+        if(txtUser.getText().equals("admin") && txtPass.getText().equals("admin")){
+            MenuScreen tela = new MenuScreen();
+            tela.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_enterButtonMouseClicked
 
     /**

@@ -34,8 +34,8 @@ public class CadastroFreteScreen extends javax.swing.JFrame {
             aux += "Destinatario: " + listaFretes.get(i).getNomeClienteDestino() + "\n";
             aux += "Remetente: " + listaFretes.get(i).getNomeRemetente() + "\n";
             aux += "Volume da Carga: " + listaFretes.get(i).getVolumeCarga() + " M³" + "\n";
-            aux += "Valor do Frete: " + listaFretes.get(i).getVolumeCarga() * 
-                    1.17 * listaFretes.get(i).getDistancaoCidadeDestino() + "\n\n";
+            aux += "Valor do Frete: " + listaFretes.get(i).getVolumeCarga()
+                    * 1.17 * listaFretes.get(i).getDistancaoCidadeDestino() + "\n\n";
         }
         txtAreaVerFretes.setText(aux);
         txtRemetente.setText("");
@@ -100,7 +100,6 @@ public class CadastroFreteScreen extends javax.swing.JFrame {
         }
         bw.close();
         fw.close();
-        
 
     }
 
@@ -296,6 +295,9 @@ public class CadastroFreteScreen extends javax.swing.JFrame {
         voltarAoMenuButton.setText("Voltar ao menu");
         voltarAoMenuButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         voltarAoMenuButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                voltarAoMenuButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 voltarAoMenuButtonMouseEntered(evt);
             }
@@ -379,7 +381,7 @@ public class CadastroFreteScreen extends javax.swing.JFrame {
             carga.setNomeClienteDestino(txtDestinatario.getText());
             carga.setNomeRemetente(txtRemetente.getText());
             carga.setVolumeCarga(Float.parseFloat(txtVolCarga.getText()));
-            
+
             listaFretes.add(carga);
             escreverArquivo();
             refreshTela();
@@ -400,6 +402,12 @@ public class CadastroFreteScreen extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtVolCargaKeyTyped
+
+    private void voltarAoMenuButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voltarAoMenuButtonMouseClicked
+        MenuScreen tela = new MenuScreen();
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_voltarAoMenuButtonMouseClicked
 
     /**
      * @param args the command line arguments

@@ -91,6 +91,9 @@ public class MenuScreen extends javax.swing.JFrame {
         gerenciarUsuarioButton.setText("Gerenciar Usuarios");
         gerenciarUsuarioButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         gerenciarUsuarioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gerenciarUsuarioButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 gerenciarUsuarioButtonMouseEntered(evt);
             }
@@ -120,6 +123,9 @@ public class MenuScreen extends javax.swing.JFrame {
         cadastrarFreteButton.setText("Cadastrar Fretes");
         cadastrarFreteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cadastrarFreteButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cadastrarFreteButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 cadastrarFreteButtonMouseEntered(evt);
             }
@@ -149,6 +155,9 @@ public class MenuScreen extends javax.swing.JFrame {
         cargaDescargaCaminhaoButton.setText("Carga/Descarga Caminhao");
         cargaDescargaCaminhaoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cargaDescargaCaminhaoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cargaDescargaCaminhaoButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 cargaDescargaCaminhaoButtonMouseEntered(evt);
             }
@@ -178,6 +187,9 @@ public class MenuScreen extends javax.swing.JFrame {
         logoutButton.setText("Logout");
         logoutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 logoutButtonMouseEntered(evt);
             }
@@ -259,6 +271,30 @@ public class MenuScreen extends javax.swing.JFrame {
         bgLogOutButton.setBackground(new Color (0, 67, 86));
         logoutButton.setForeground(Color.WHITE);
     }//GEN-LAST:event_logoutButtonMouseExited
+
+    private void gerenciarUsuarioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gerenciarUsuarioButtonMouseClicked
+        GestionarUsuarioScreen gestionarUsuario = new GestionarUsuarioScreen();
+        gestionarUsuario.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_gerenciarUsuarioButtonMouseClicked
+
+    private void cadastrarFreteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarFreteButtonMouseClicked
+        CadastroFreteScreen cadastrarFrete = new CadastroFreteScreen();
+        cadastrarFrete.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_cadastrarFreteButtonMouseClicked
+
+    private void cargaDescargaCaminhaoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargaDescargaCaminhaoButtonMouseClicked
+        CargaDescargaScreen cargaDescarga = new CargaDescargaScreen();
+        cargaDescarga.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_cargaDescargaCaminhaoButtonMouseClicked
+
+    private void logoutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutButtonMouseClicked
+        LogScreen login = new LogScreen();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logoutButtonMouseClicked
 
     /**
      * @param args the command line arguments
