@@ -48,7 +48,7 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
     public void refreshTelaCaminhao() {
         String aux = "";
 
-        for (Transportadora frete : fretesACarregar) {
+        for (Transportadora frete : fretesCarregados) {
             aux += "Cidade Destino: " + frete.getEnderecoClienteDestino() + " ";
             aux += frete.getDistancaoCidadeDestino() + " km" + "\n";
             aux += "Destinatario: " + frete.getNomeClienteDestino() + "\n";
@@ -113,7 +113,7 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
                     Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            fretesACarregar.clear();
+            fretesCarregados.clear();
             fr = new FileReader(caminhao);
             BufferedReader br = new BufferedReader(fr);
             while (br.ready()) {
@@ -125,7 +125,7 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
                 frete.setNomeRemetente(t[3]);
                 frete.setVolumeCarga(Float.parseFloat(t[4]));
 
-                fretesACarregar.add(frete);
+                fretesCarregados.push(frete);
             }
             fr.close();
         } catch (FileNotFoundException ex) {
@@ -171,7 +171,7 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         }
         FileWriter fw = new FileWriter(caminhao, true);
         BufferedWriter bw = new BufferedWriter(fw);
-        for (Transportadora frete : fretesACarregar) {
+        for (Transportadora frete : fretesCarregados) {
             bw.write(frete.getEnderecoClienteDestino() + ",");
             bw.write(frete.getDistancaoCidadeDestino() + ",");
             bw.write(frete.getNomeClienteDestino() + ",");
