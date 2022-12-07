@@ -12,7 +12,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +32,8 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
     Stack<Transportadora> fretesCarregados = new Stack();
     File cargasRecebidas = new File("cargasRecebidas.csv");
     File caminhao = new File("caminhao.csv");
+    private static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+
 
     public void refreshTela() {
         String aux = "";
@@ -165,6 +170,25 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
 
     public void escreverArquivoCaminhao() throws IOException {
         File caminhao = new File("caminhao.csv");
+        boolean existe = caminhao.exists();
+        if (existe) {
+            caminhao.delete();
+        }
+        FileWriter fw = new FileWriter(caminhao, true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        for (Transportadora frete : fretesCarregados) {
+            bw.write(frete.getEnderecoClienteDestino() + ",");
+            bw.write(frete.getDistancaoCidadeDestino() + ",");
+            bw.write(frete.getNomeClienteDestino() + ",");
+            bw.write(frete.getNomeRemetente() + ",");
+            bw.write(frete.getVolumeCarga() + ",");
+            bw.newLine();
+        }
+        bw.close();
+        fw.close();
+
+    }
+    public void escreverArquivoCaminhao(File caminhao) throws IOException {
         boolean existe = caminhao.exists();
         if (existe) {
             caminhao.delete();
@@ -327,6 +351,9 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         descarregarCaminhaoButton.setText("Descarregar Caminhao");
         descarregarCaminhaoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         descarregarCaminhaoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                descarregarCaminhaoButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 descarregarCaminhaoButtonMouseEntered(evt);
             }
@@ -470,6 +497,31 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         tela.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_voltarAoMenuButtonMouseClicked
+
+    private void descarregarCaminhaoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descarregarCaminhaoButtonMouseClicked
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String stamp = dateformat.format(timestamp);
+        File carga = new File("cargas/caminhao"+stamp+".csv");
+        if (!fretesCarregados.isEmpty()){
+        try {
+            escreverArquivoCaminhao(carga);
+        } catch (IOException ex) {
+            Logger.getLogger(CargaDescargaScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        fretesCarregados.clear();
+            try {
+                escreverArquivoCaminhao();
+            } catch (IOException ex) {
+                Logger.getLogger(CargaDescargaScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Separe a carga primeiro");
+        }
+        refreshTelaCaminhao();
+        
+    }//GEN-LAST:event_descarregarCaminhaoButtonMouseClicked
 
     /**
      * @param args the command line arguments
