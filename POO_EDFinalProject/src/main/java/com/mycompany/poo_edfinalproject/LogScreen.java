@@ -1,17 +1,67 @@
-
 package com.mycompany.poo_edfinalproject;
 
 import java.awt.Color;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class LogScreen extends javax.swing.JFrame {
-
-
+    
+    File arquivoUser = new File("Usuarios.csv");
+    ArrayList<Usuario> listaUser = new ArrayList();
+    
+    public final void leituraArquivo(File caminhao) {
+        
+        FileReader fr = null;
+        try {
+            boolean existe = caminhao.exists();
+            if (!existe) {
+                try {
+                    FileWriter fw = new FileWriter(caminhao, true);
+                } catch (IOException ex) {
+                    Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            listaUser.clear();
+            fr = new FileReader(caminhao);
+            BufferedReader br = new BufferedReader(fr);
+            while (br.ready()) {
+                String[] t = br.readLine().split(",");
+                Usuario user = new Usuario();
+                user.setName(t[0]);
+                user.setCpf(Long.parseLong(t[1]));
+                user.setUser(t[2]);
+                user.setPassword(t[3]);
+                user.setTipoFunc((t[4]));
+                
+                listaUser.add(user);
+            }
+            fr.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     public LogScreen() {
         initComponents();
+        leituraArquivo(arquivoUser);
     }
-
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -57,8 +107,7 @@ public class LogScreen extends javax.swing.JFrame {
         txtUser.setBackground(new java.awt.Color(255, 255, 255));
         txtUser.setFont(new java.awt.Font("Eras Demi ITC", 0, 14)); // NOI18N
         txtUser.setForeground(new java.awt.Color(153, 153, 153));
-        txtUser.setText("Insira aqui seu usuario");
-        txtUser.setToolTipText("");
+        txtUser.setToolTipText("Insira aqui seu usuario");
         txtUser.setBorder(null);
         txtUser.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -84,8 +133,7 @@ public class LogScreen extends javax.swing.JFrame {
         txtPass.setBackground(new java.awt.Color(255, 255, 255));
         txtPass.setFont(new java.awt.Font("Eras Demi ITC", 0, 14)); // NOI18N
         txtPass.setForeground(new java.awt.Color(153, 153, 153));
-        txtPass.setText("Insira aqui seu usuario");
-        txtPass.setToolTipText("");
+        txtPass.setToolTipText("Insira aqui sua senha");
         txtPass.setBorder(null);
         txtPass.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -177,31 +225,53 @@ public class LogScreen extends javax.swing.JFrame {
     private void txtUserFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUserFocusGained
         
     }//GEN-LAST:event_txtUserFocusGained
-
+    
     private void enterButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enterButtonMouseEntered
-        enterButtonBG.setBackground(new Color (127,224,251));
+        enterButtonBG.setBackground(new Color(127, 224, 251));
         enterButton.setForeground(Color.BLACK);
     }//GEN-LAST:event_enterButtonMouseEntered
-
+    
     private void enterButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enterButtonMouseExited
-        enterButtonBG.setBackground(new Color (0, 67, 86));
+        enterButtonBG.setBackground(new Color(0, 67, 86));
         enterButton.setForeground(Color.WHITE);
     }//GEN-LAST:event_enterButtonMouseExited
-
+    
     private void txtUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUserMouseClicked
         txtUser.setText("");
     }//GEN-LAST:event_txtUserMouseClicked
-
+    
     private void txtPassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPassMouseClicked
         txtPass.setText("");
     }//GEN-LAST:event_txtPassMouseClicked
-
+    
     private void enterButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enterButtonMouseClicked
-        if(txtUser.getText().equals("admin") && txtPass.getText().equals("admin")){
-            MenuScreen tela = new MenuScreen();
-            tela.setVisible(true);
-            this.dispose();
+        int cont = 0;
+        for (int i = 0; i < listaUser.size(); i++) {
+            
+            if (txtUser.getText().equals(listaUser.get(i).getUser()) && txtPass.getText().equals(listaUser.get(i).getPassword())
+                    && listaUser.get(i).getTipoFunc().equals("Gerente")) {
+                MenuScreen tela = new MenuScreen();
+                tela.setVisible(true);
+                this.dispose();
+                break;
+            } else if (txtUser.getText().equals(listaUser.get(i).getUser()) && txtPass.getText().equals(listaUser.get(i).getPassword())
+                    && listaUser.get(i).getTipoFunc().equals("Caminhoneiro")) {
+                CaminhoneiroScreen tela = new CaminhoneiroScreen();
+                tela.setVisible(true);
+                this.dispose();
+                break;
+            } else if (txtUser.getText().equals(listaUser.get(i).getUser()) && txtPass.getText().equals(listaUser.get(i).getPassword())
+                    && listaUser.get(i).getTipoFunc().equals("Atendente")) {
+                MenuAdminScreen tela = new MenuAdminScreen();
+                tela.setVisible(true);
+                this.dispose();
+                break;
+            }  
+            
         }
+        if(cont != 0){
+                JOptionPane.showMessageDialog(null, "Usuario/Senha Nao encontrado");
+            }
     }//GEN-LAST:event_enterButtonMouseClicked
 
     /**

@@ -10,12 +10,12 @@ import java.awt.Color;
  *
  * @author Usuario
  */
-public class MenuScreen extends javax.swing.JFrame {
+public class MenuAdminScreen extends javax.swing.JFrame {
 
     /**
      * Creates new form MenuScreen
      */
-    public MenuScreen() {
+    public MenuAdminScreen() {
         initComponents();
     }
 
@@ -32,8 +32,6 @@ public class MenuScreen extends javax.swing.JFrame {
         bg = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
         empName = new javax.swing.JLabel();
-        bgCadastroButton = new javax.swing.JPanel();
-        gerenciarUsuarioButton = new javax.swing.JLabel();
         bgCadastrarFreteButton = new javax.swing.JPanel();
         cadastrarFreteButton = new javax.swing.JLabel();
         bgCargaDescargaCamiaoButton = new javax.swing.JPanel();
@@ -83,38 +81,6 @@ public class MenuScreen extends javax.swing.JFrame {
 
         bg.add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 120));
 
-        bgCadastroButton.setBackground(new java.awt.Color(0, 67, 86));
-
-        gerenciarUsuarioButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
-        gerenciarUsuarioButton.setForeground(new java.awt.Color(255, 255, 255));
-        gerenciarUsuarioButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        gerenciarUsuarioButton.setText("Gerenciar Usuarios");
-        gerenciarUsuarioButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        gerenciarUsuarioButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gerenciarUsuarioButtonMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gerenciarUsuarioButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gerenciarUsuarioButtonMouseExited(evt);
-            }
-        });
-
-        javax.swing.GroupLayout bgCadastroButtonLayout = new javax.swing.GroupLayout(bgCadastroButton);
-        bgCadastroButton.setLayout(bgCadastroButtonLayout);
-        bgCadastroButtonLayout.setHorizontalGroup(
-            bgCadastroButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gerenciarUsuarioButton, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-        );
-        bgCadastroButtonLayout.setVerticalGroup(
-            bgCadastroButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gerenciarUsuarioButton, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-        );
-
-        bg.add(bgCadastroButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 250, 60));
-
         bgCadastrarFreteButton.setBackground(new java.awt.Color(0, 67, 86));
 
         cadastrarFreteButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
@@ -145,14 +111,14 @@ public class MenuScreen extends javax.swing.JFrame {
             .addComponent(cadastrarFreteButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
-        bg.add(bgCadastrarFreteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, -1, -1));
+        bg.add(bgCadastrarFreteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, -1, -1));
 
         bgCargaDescargaCamiaoButton.setBackground(new java.awt.Color(0, 67, 86));
 
         cargaDescargaCaminhaoButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
         cargaDescargaCaminhaoButton.setForeground(new java.awt.Color(255, 255, 255));
         cargaDescargaCaminhaoButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cargaDescargaCaminhaoButton.setText("Separar / Fechar Carga");
+        cargaDescargaCaminhaoButton.setText("Separar / Fechar Cargas");
         cargaDescargaCaminhaoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cargaDescargaCaminhaoButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -177,7 +143,7 @@ public class MenuScreen extends javax.swing.JFrame {
             .addComponent(cargaDescargaCaminhaoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
-        bg.add(bgCargaDescargaCamiaoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, -1, 60));
+        bg.add(bgCargaDescargaCamiaoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, -1, 60));
 
         bgLogOutButton.setBackground(new java.awt.Color(0, 67, 86));
 
@@ -209,7 +175,7 @@ public class MenuScreen extends javax.swing.JFrame {
             .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
-        bg.add(bgLogOutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 460, -1, 60));
+        bg.add(bgLogOutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, -1, 60));
 
         lblMenu.setFont(new java.awt.Font("Eras Demi ITC", 0, 36)); // NOI18N
         lblMenu.setForeground(new java.awt.Color(0, 67, 86));
@@ -231,16 +197,6 @@ public class MenuScreen extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void gerenciarUsuarioButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gerenciarUsuarioButtonMouseEntered
-        bgCadastroButton.setBackground(new Color(127, 224, 251));
-        gerenciarUsuarioButton.setForeground(Color.BLACK);
-    }//GEN-LAST:event_gerenciarUsuarioButtonMouseEntered
-
-    private void gerenciarUsuarioButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gerenciarUsuarioButtonMouseExited
-        bgCadastroButton.setBackground(new Color(0, 67, 86));
-        gerenciarUsuarioButton.setForeground(Color.WHITE);
-    }//GEN-LAST:event_gerenciarUsuarioButtonMouseExited
 
     private void cadastrarFreteButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarFreteButtonMouseEntered
         bgCadastrarFreteButton.setBackground(new Color(127, 224, 251));
@@ -271,12 +227,6 @@ public class MenuScreen extends javax.swing.JFrame {
         bgLogOutButton.setBackground(new Color(0, 67, 86));
         logoutButton.setForeground(Color.WHITE);
     }//GEN-LAST:event_logoutButtonMouseExited
-
-    private void gerenciarUsuarioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gerenciarUsuarioButtonMouseClicked
-        GestionarUsuarioScreen gestionarUsuario = new GestionarUsuarioScreen();
-        gestionarUsuario.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_gerenciarUsuarioButtonMouseClicked
 
     private void cadastrarFreteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarFreteButtonMouseClicked
         CadastroFreteScreen cadastrarFrete = new CadastroFreteScreen();
@@ -322,6 +272,7 @@ public class MenuScreen extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MenuScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -334,13 +285,11 @@ public class MenuScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JPanel bgCadastrarFreteButton;
-    private javax.swing.JPanel bgCadastroButton;
     private javax.swing.JPanel bgCargaDescargaCamiaoButton;
     private javax.swing.JPanel bgLogOutButton;
     private javax.swing.JLabel cadastrarFreteButton;
     private javax.swing.JLabel cargaDescargaCaminhaoButton;
     private javax.swing.JLabel empName;
-    private javax.swing.JLabel gerenciarUsuarioButton;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;

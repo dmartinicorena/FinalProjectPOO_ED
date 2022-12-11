@@ -1,12 +1,86 @@
-
 package com.mycompany.poo_edfinalproject;
+
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class GestionarUsuarioScreen extends javax.swing.JFrame {
-
-
+    
+    File arquivoUser = new File("Usuarios.csv");
+    ArrayList<Usuario> listaUser = new ArrayList();
+    
+    public void escreverArquivo(File caminhao) throws IOException {
+        boolean existe = caminhao.exists();
+        if (existe) {
+            caminhao.delete();
+        }
+        FileWriter fw = new FileWriter(caminhao, true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        for (Usuario user : listaUser) {
+            bw.write(user.getName() + ",");
+            bw.write(user.getCpf() + ",");
+            bw.write(user.getUser() + ",");
+            bw.write(user.getPassword() + ",");
+            bw.write(user.getTipoFunc() + ",");
+            bw.newLine();
+        }
+        bw.close();
+        fw.close();
+        
+    }
+    
+    public final void leituraArquivo(File caminhao) {
+        
+        FileReader fr = null;
+        try {
+            boolean existe = caminhao.exists();
+            if (!existe) {
+                try {
+                    FileWriter fw = new FileWriter(caminhao, true);
+                } catch (IOException ex) {
+                    Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            listaUser.clear();
+            fr = new FileReader(caminhao);
+            BufferedReader br = new BufferedReader(fr);
+            while (br.ready()) {
+                String[] t = br.readLine().split(",");
+                Usuario user = new Usuario();
+                user.setName(t[0]);
+                user.setCpf(Long.parseLong(t[1]));
+                user.setUser(t[2]);
+                user.setPassword(t[3]);
+                user.setTipoFunc((t[4]));
+                
+                listaUser.add(user);
+            }
+            fr.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     public GestionarUsuarioScreen() {
         initComponents();
+        leituraArquivo(arquivoUser);
     }
 
     /**
@@ -18,6 +92,8 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        carregarArquivoButton = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
         empName = new javax.swing.JLabel();
@@ -38,7 +114,28 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
         lblApagarUser = new javax.swing.JLabel();
         lblSubTitleCadastro = new javax.swing.JLabel();
         bgCadastroButton = new javax.swing.JPanel();
-        gerenciarUsuarioButton = new javax.swing.JLabel();
+        cadastrarUsuarioButton = new javax.swing.JLabel();
+        lblPass1 = new javax.swing.JLabel();
+        tipoUsuarioSelector = new javax.swing.JComboBox<>();
+        ApagarUserButton = new javax.swing.JButton();
+        LogoutButton = new javax.swing.JButton();
+
+        carregarArquivoButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
+        carregarArquivoButton.setForeground(new java.awt.Color(255, 255, 255));
+        carregarArquivoButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        carregarArquivoButton.setText("Carregar");
+        carregarArquivoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        carregarArquivoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                carregarArquivoButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                carregarArquivoButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                carregarArquivoButtonMouseExited(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,6 +195,11 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
         txtCPF.setFont(new java.awt.Font("Eras Demi ITC", 0, 12)); // NOI18N
         txtCPF.setForeground(new java.awt.Color(51, 51, 51));
         txtCPF.setBorder(null);
+        txtCPF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCPFKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtCPF, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 270, 30));
 
         jSeparator3.setForeground(new java.awt.Color(51, 51, 51));
@@ -138,7 +240,7 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
         lblApagarUser.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
         lblApagarUser.setForeground(new java.awt.Color(51, 51, 51));
         lblApagarUser.setText("Apagar Usuario");
-        jPanel1.add(lblApagarUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 270, 40));
+        jPanel1.add(lblApagarUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 210, 40));
 
         lblSubTitleCadastro.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
         lblSubTitleCadastro.setForeground(new java.awt.Color(51, 51, 51));
@@ -147,17 +249,20 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
 
         bgCadastroButton.setBackground(new java.awt.Color(0, 67, 86));
 
-        gerenciarUsuarioButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
-        gerenciarUsuarioButton.setForeground(new java.awt.Color(255, 255, 255));
-        gerenciarUsuarioButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        gerenciarUsuarioButton.setText("Cadastrar");
-        gerenciarUsuarioButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        gerenciarUsuarioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        cadastrarUsuarioButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
+        cadastrarUsuarioButton.setForeground(new java.awt.Color(255, 255, 255));
+        cadastrarUsuarioButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cadastrarUsuarioButton.setText("Cadastrar");
+        cadastrarUsuarioButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cadastrarUsuarioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cadastrarUsuarioButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gerenciarUsuarioButtonMouseEntered(evt);
+                cadastrarUsuarioButtonMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                gerenciarUsuarioButtonMouseExited(evt);
+                cadastrarUsuarioButtonMouseExited(evt);
             }
         });
 
@@ -165,14 +270,53 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
         bgCadastroButton.setLayout(bgCadastroButtonLayout);
         bgCadastroButtonLayout.setHorizontalGroup(
             bgCadastroButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gerenciarUsuarioButton, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+            .addComponent(cadastrarUsuarioButton, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
         );
         bgCadastroButtonLayout.setVerticalGroup(
             bgCadastroButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gerenciarUsuarioButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+            .addComponent(cadastrarUsuarioButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
         );
 
         jPanel1.add(bgCadastroButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 310, 140, 80));
+
+        lblPass1.setFont(new java.awt.Font("Eras Demi ITC", 0, 16)); // NOI18N
+        lblPass1.setForeground(new java.awt.Color(51, 51, 51));
+        lblPass1.setText("Tipo de Funcionario");
+        jPanel1.add(lblPass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 170, 30));
+
+        tipoUsuarioSelector.setBackground(new java.awt.Color(255, 255, 255));
+        tipoUsuarioSelector.setFont(new java.awt.Font("Eras Demi ITC", 0, 12)); // NOI18N
+        tipoUsuarioSelector.setForeground(new java.awt.Color(102, 102, 102));
+        tipoUsuarioSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gerente", "Atendente", "Caminhoneiro" }));
+        tipoUsuarioSelector.setBorder(null);
+        tipoUsuarioSelector.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tipoUsuarioSelectorKeyPressed(evt);
+            }
+        });
+        jPanel1.add(tipoUsuarioSelector, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 450, 110, 30));
+
+        ApagarUserButton.setBackground(new java.awt.Color(0, 67, 86));
+        ApagarUserButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 14)); // NOI18N
+        ApagarUserButton.setForeground(new java.awt.Color(255, 255, 255));
+        ApagarUserButton.setText("Informar CPF ");
+        ApagarUserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ApagarUserButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ApagarUserButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 120, 40));
+
+        LogoutButton.setBackground(new java.awt.Color(0, 67, 86));
+        LogoutButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 14)); // NOI18N
+        LogoutButton.setForeground(new java.awt.Color(255, 255, 255));
+        LogoutButton.setText("Logout");
+        LogoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(LogoutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 540, 140, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -191,16 +335,87 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
     private void txtPassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPassMouseClicked
         txtPass.setText("");
     }//GEN-LAST:event_txtPassMouseClicked
+    
+    private void cadastrarUsuarioButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarUsuarioButtonMouseEntered
+        bgCadastroButton.setBackground(new Color(127, 224, 251));
+        cadastrarUsuarioButton.setForeground(Color.BLACK);
+    }//GEN-LAST:event_cadastrarUsuarioButtonMouseEntered
+    
+    private void cadastrarUsuarioButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarUsuarioButtonMouseExited
+        bgCadastroButton.setBackground(new Color(0, 67, 86));
+        cadastrarUsuarioButton.setForeground(Color.WHITE);
+    }//GEN-LAST:event_cadastrarUsuarioButtonMouseExited
+    
+    private void tipoUsuarioSelectorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tipoUsuarioSelectorKeyPressed
+        // JOptionPane.showMessageDialog(rootPane, "selected");
+    }//GEN-LAST:event_tipoUsuarioSelectorKeyPressed
+    
+    private void carregarArquivoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carregarArquivoButtonMouseClicked
+        
+    }//GEN-LAST:event_carregarArquivoButtonMouseClicked
+    
+    private void carregarArquivoButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carregarArquivoButtonMouseEntered
+        
+    }//GEN-LAST:event_carregarArquivoButtonMouseEntered
+    
+    private void carregarArquivoButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carregarArquivoButtonMouseExited
+        
+    }//GEN-LAST:event_carregarArquivoButtonMouseExited
+    
+    private void ApagarUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ApagarUserButtonActionPerformed
+        long cpf;
+        int selector;
+        cpf = Long.parseLong(JOptionPane.showInputDialog(null, "Informe o CPF do usuario que quer apagar."));
+        for (int i = 0; i < listaUser.size(); i++) {
+            if (cpf == listaUser.get(i).getCpf()) {
+                selector = JOptionPane.showConfirmDialog(null, "Quer eliminar o " + listaUser.get(i).getTipoFunc() + " " + listaUser.get(i).getName() + "?", "Confirma apagar usuario", WIDTH);
+                if (selector == JOptionPane.YES_OPTION) {
+                    listaUser.remove(i);
+                }
+            }
+        }
+    }//GEN-LAST:event_ApagarUserButtonActionPerformed
+    
+    private void cadastrarUsuarioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarUsuarioButtonMouseClicked
+        if (txtNomeFunc.getText().equals("") || txtCPF.getText().equals("")
+                || txtUser.getText().equals("") || txtPass.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos!");
+        } else {
+            
+            try {
+                Usuario user = new Usuario();
+                user.setName(txtNomeFunc.getText());
+                user.setCpf(Long.parseLong(txtCPF.getText()));
+                user.setUser(txtUser.getText());
+                user.setPassword(txtPass.getText());
+                user.setTipoFunc(tipoUsuarioSelector.getSelectedItem().toString());
+                
+                listaUser.add(user);
+                escreverArquivo(arquivoUser);
+            } catch (IOException ex) {
+                Logger.getLogger(GestionarUsuarioScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null, "Usuario Criado com sucesso!");
+            txtNomeFunc.setText("");
+            txtCPF.setText("");
+            txtUser.setText("");
+            txtPass.setText("");
+        }
+    }//GEN-LAST:event_cadastrarUsuarioButtonMouseClicked
 
-    private void gerenciarUsuarioButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gerenciarUsuarioButtonMouseEntered
-        bgCadastroButton.setBackground(new Color (127,224,251));
-        gerenciarUsuarioButton.setForeground(Color.BLACK);
-    }//GEN-LAST:event_gerenciarUsuarioButtonMouseEntered
+    private void txtCPFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCPFKeyTyped
+        char c = evt.getKeyChar();
 
-    private void gerenciarUsuarioButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gerenciarUsuarioButtonMouseExited
-        bgCadastroButton.setBackground(new Color (0, 67, 86));
-        gerenciarUsuarioButton.setForeground(Color.WHITE);
-    }//GEN-LAST:event_gerenciarUsuarioButtonMouseExited
+        if ((c < '0' || c > '9') && (c == ',')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCPFKeyTyped
+
+    private void LogoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutButtonActionPerformed
+        LogScreen login = new LogScreen();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_LogoutButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,9 +453,13 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ApagarUserButton;
+    private javax.swing.JButton LogoutButton;
     private javax.swing.JPanel bgCadastroButton;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel cadastrarUsuarioButton;
+    private javax.swing.JLabel carregarArquivoButton;
     private javax.swing.JLabel empName;
-    private javax.swing.JLabel gerenciarUsuarioButton;
     private javax.swing.JPanel header;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
@@ -253,8 +472,10 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
     private javax.swing.JLabel lblCPF;
     private javax.swing.JLabel lblNomeFunc;
     private javax.swing.JLabel lblPass;
+    private javax.swing.JLabel lblPass1;
     private javax.swing.JLabel lblSubTitleCadastro;
     private javax.swing.JLabel lblUsuario;
+    private javax.swing.JComboBox<String> tipoUsuarioSelector;
     private javax.swing.JTextField txtCPF;
     private javax.swing.JTextField txtNomeFunc;
     private javax.swing.JPasswordField txtPass;

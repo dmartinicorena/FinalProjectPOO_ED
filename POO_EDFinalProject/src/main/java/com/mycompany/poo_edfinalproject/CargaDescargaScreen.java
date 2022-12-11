@@ -34,7 +34,6 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
     File caminhao = new File("caminhao.csv");
     private static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
-
     public void refreshTela() {
         String aux = "";
         for (int i = 0; i < listaFretes.size(); i++) {
@@ -188,6 +187,7 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         fw.close();
 
     }
+
     public void escreverArquivoCaminhao(File caminhao) throws IOException {
         boolean existe = caminhao.exists();
         if (existe) {
@@ -234,9 +234,9 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         txtAreaFretesCarregados = new javax.swing.JTextArea();
         lblFretesCarregados = new javax.swing.JLabel();
         bgCadastroButton = new javax.swing.JPanel();
-        carregarCaminhaoButton = new javax.swing.JLabel();
+        separarCargaButton = new javax.swing.JLabel();
         bgCadastrarFreteButton = new javax.swing.JPanel();
-        descarregarCaminhaoButton = new javax.swing.JLabel();
+        fecharCargaButton = new javax.swing.JLabel();
         bgCargaDescargaCamiaoButton = new javax.swing.JPanel();
         voltarAoMenuButton = new javax.swing.JLabel();
 
@@ -313,20 +313,20 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
 
         bgCadastroButton.setBackground(new java.awt.Color(0, 67, 86));
 
-        carregarCaminhaoButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
-        carregarCaminhaoButton.setForeground(new java.awt.Color(255, 255, 255));
-        carregarCaminhaoButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        carregarCaminhaoButton.setText("Carregar Caminhao");
-        carregarCaminhaoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        carregarCaminhaoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        separarCargaButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
+        separarCargaButton.setForeground(new java.awt.Color(255, 255, 255));
+        separarCargaButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        separarCargaButton.setText("Separar Carga");
+        separarCargaButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        separarCargaButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                carregarCaminhaoButtonMouseClicked(evt);
+                separarCargaButtonMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                carregarCaminhaoButtonMouseEntered(evt);
+                separarCargaButtonMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                carregarCaminhaoButtonMouseExited(evt);
+                separarCargaButtonMouseExited(evt);
             }
         });
 
@@ -334,31 +334,31 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         bgCadastroButton.setLayout(bgCadastroButtonLayout);
         bgCadastroButtonLayout.setHorizontalGroup(
             bgCadastroButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(carregarCaminhaoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+            .addComponent(separarCargaButton, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
         );
         bgCadastroButtonLayout.setVerticalGroup(
             bgCadastroButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(carregarCaminhaoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+            .addComponent(separarCargaButton, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
         jPanel1.add(bgCadastroButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 250, 60));
 
         bgCadastrarFreteButton.setBackground(new java.awt.Color(0, 67, 86));
 
-        descarregarCaminhaoButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
-        descarregarCaminhaoButton.setForeground(new java.awt.Color(255, 255, 255));
-        descarregarCaminhaoButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        descarregarCaminhaoButton.setText("Descarregar Caminhao");
-        descarregarCaminhaoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        descarregarCaminhaoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        fecharCargaButton.setFont(new java.awt.Font("Eras Demi ITC", 0, 18)); // NOI18N
+        fecharCargaButton.setForeground(new java.awt.Color(255, 255, 255));
+        fecharCargaButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        fecharCargaButton.setText("Fechar Carga");
+        fecharCargaButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        fecharCargaButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                descarregarCaminhaoButtonMouseClicked(evt);
+                fecharCargaButtonMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                descarregarCaminhaoButtonMouseEntered(evt);
+                fecharCargaButtonMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                descarregarCaminhaoButtonMouseExited(evt);
+                fecharCargaButtonMouseExited(evt);
             }
         });
 
@@ -366,11 +366,11 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         bgCadastrarFreteButton.setLayout(bgCadastrarFreteButtonLayout);
         bgCadastrarFreteButtonLayout.setHorizontalGroup(
             bgCadastrarFreteButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(descarregarCaminhaoButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+            .addComponent(fecharCargaButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
         );
         bgCadastrarFreteButtonLayout.setVerticalGroup(
             bgCadastrarFreteButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(descarregarCaminhaoButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+            .addComponent(fecharCargaButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
         jPanel1.add(bgCadastrarFreteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, -1, -1));
@@ -421,25 +421,25 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void carregarCaminhaoButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carregarCaminhaoButtonMouseEntered
+    private void separarCargaButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_separarCargaButtonMouseEntered
         bgCadastroButton.setBackground(new Color(127, 224, 251));
-        carregarCaminhaoButton.setForeground(Color.BLACK);
-    }//GEN-LAST:event_carregarCaminhaoButtonMouseEntered
+        separarCargaButton.setForeground(Color.BLACK);
+    }//GEN-LAST:event_separarCargaButtonMouseEntered
 
-    private void carregarCaminhaoButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carregarCaminhaoButtonMouseExited
+    private void separarCargaButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_separarCargaButtonMouseExited
         bgCadastroButton.setBackground(new Color(0, 67, 86));
-        carregarCaminhaoButton.setForeground(Color.WHITE);
-    }//GEN-LAST:event_carregarCaminhaoButtonMouseExited
+        separarCargaButton.setForeground(Color.WHITE);
+    }//GEN-LAST:event_separarCargaButtonMouseExited
 
-    private void descarregarCaminhaoButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descarregarCaminhaoButtonMouseEntered
+    private void fecharCargaButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fecharCargaButtonMouseEntered
         bgCadastrarFreteButton.setBackground(new Color(127, 224, 251));
-        descarregarCaminhaoButton.setForeground(Color.BLACK);
-    }//GEN-LAST:event_descarregarCaminhaoButtonMouseEntered
+        fecharCargaButton.setForeground(Color.BLACK);
+    }//GEN-LAST:event_fecharCargaButtonMouseEntered
 
-    private void descarregarCaminhaoButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descarregarCaminhaoButtonMouseExited
+    private void fecharCargaButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fecharCargaButtonMouseExited
         bgCadastrarFreteButton.setBackground(new Color(0, 67, 86));
-        descarregarCaminhaoButton.setForeground(Color.WHITE);
-    }//GEN-LAST:event_descarregarCaminhaoButtonMouseExited
+        fecharCargaButton.setForeground(Color.WHITE);
+    }//GEN-LAST:event_fecharCargaButtonMouseExited
 
     private void voltarAoMenuButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voltarAoMenuButtonMouseEntered
         bgCargaDescargaCamiaoButton.setBackground(new Color(127, 224, 251));
@@ -451,7 +451,7 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         voltarAoMenuButton.setForeground(Color.WHITE);
     }//GEN-LAST:event_voltarAoMenuButtonMouseExited
 
-    private void carregarCaminhaoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carregarCaminhaoButtonMouseClicked
+    private void separarCargaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_separarCargaButtonMouseClicked
 
         float capacidadeCaminhao = 50;
 
@@ -490,7 +490,7 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         refreshTela();
         refreshTelaCaminhao();
 
-    }//GEN-LAST:event_carregarCaminhaoButtonMouseClicked
+    }//GEN-LAST:event_separarCargaButtonMouseClicked
 
     private void voltarAoMenuButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voltarAoMenuButtonMouseClicked
         MenuScreen tela = new MenuScreen();
@@ -498,30 +498,29 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_voltarAoMenuButtonMouseClicked
 
-    private void descarregarCaminhaoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descarregarCaminhaoButtonMouseClicked
+    private void fecharCargaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fecharCargaButtonMouseClicked
         Date date = new Date();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String stamp = dateformat.format(timestamp);
-        File carga = new File("cargas/caminhao"+stamp+".csv");
-        if (!fretesCarregados.isEmpty()){
-        try {
-            escreverArquivoCaminhao(carga);
-        } catch (IOException ex) {
-            Logger.getLogger(CargaDescargaScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        fretesCarregados.clear();
+        File carga = new File("cargas/carga_" + stamp + ".csv");
+        if (!fretesCarregados.isEmpty()) {
+            try {
+                escreverArquivoCaminhao(carga);
+            } catch (IOException ex) {
+                Logger.getLogger(CargaDescargaScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            fretesCarregados.clear();
             try {
                 escreverArquivoCaminhao();
             } catch (IOException ex) {
                 Logger.getLogger(CargaDescargaScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Separe a carga primeiro");
         }
         refreshTelaCaminhao();
-        
-    }//GEN-LAST:event_descarregarCaminhaoButtonMouseClicked
+
+    }//GEN-LAST:event_fecharCargaButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -562,8 +561,7 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
     private javax.swing.JPanel bgCadastrarFreteButton;
     private javax.swing.JPanel bgCadastroButton;
     private javax.swing.JPanel bgCargaDescargaCamiaoButton;
-    private javax.swing.JLabel carregarCaminhaoButton;
-    private javax.swing.JLabel descarregarCaminhaoButton;
+    private javax.swing.JLabel fecharCargaButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -572,6 +570,7 @@ public class CargaDescargaScreen extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JLabel lblFretesCarregados;
     private javax.swing.JLabel lblTxtBoxTitulo;
+    private javax.swing.JLabel separarCargaButton;
     private javax.swing.JTextArea txtAreaFretesCarregados;
     private javax.swing.JTextArea txtAreaVerFretes;
     private javax.swing.JLabel voltarAoMenuButton;

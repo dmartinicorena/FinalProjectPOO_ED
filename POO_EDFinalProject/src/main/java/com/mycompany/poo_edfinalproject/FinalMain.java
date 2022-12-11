@@ -1,7 +1,4 @@
-
-
 package com.mycompany.poo_edfinalproject;
-
 
 public class FinalMain {
 
@@ -9,6 +6,5 @@ public class FinalMain {
         LogScreen login = new LogScreen();
         login.setVisible(true);
     }
-    
-    
+
 }
