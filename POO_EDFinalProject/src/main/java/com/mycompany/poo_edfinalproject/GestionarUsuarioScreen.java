@@ -374,6 +374,11 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
                 }
             }
         }
+        try {
+            escreverArquivo(arquivoUser);
+        } catch (IOException ex) {
+            Logger.getLogger(GestionarUsuarioScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_ApagarUserButtonActionPerformed
     
     private void cadastrarUsuarioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarUsuarioButtonMouseClicked
