@@ -382,10 +382,16 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_ApagarUserButtonActionPerformed
     
     private void cadastrarUsuarioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarUsuarioButtonMouseClicked
+        int cont=0;
+        for (Usuario usuario : listaUser) {
+            if(usuario.getCpf() == Long.parseLong(txtCPF.getText())){
+                cont++;
+            }
+        }
         if (txtNomeFunc.getText().equals("") || txtCPF.getText().equals("")
                 || txtUser.getText().equals("") || txtPass.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos!");
-        } else {
+        } else if(cont ==0){
             
             try {
                 Usuario user = new Usuario();
@@ -405,6 +411,9 @@ public class GestionarUsuarioScreen extends javax.swing.JFrame {
             txtCPF.setText("");
             txtUser.setText("");
             txtPass.setText("");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Já Existe um usuario com esse CPF!");
         }
     }//GEN-LAST:event_cadastrarUsuarioButtonMouseClicked
 

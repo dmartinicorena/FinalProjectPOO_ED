@@ -12,6 +12,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,17 +31,21 @@ public class CaminhoneiroScreen extends javax.swing.JFrame {
     File selPastaCargas = new File("cargas");
     File arquivosCarga[] = selPastaCargas.listFiles();
     Stack<Transportadora> fretesCarregados = new Stack();
+    ArrayList<Transportadora> relatorioCargas = new ArrayList();
+    Relatorio relatorio = new Relatorio();
+    private static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
     /**
      * Creates new form CaminhoneiroScreen
      */
     public CaminhoneiroScreen() {
         initComponents();
-        carregarCargaSelector();
+        atualizarCargaSelector();
     }
 
-    public void carregarCargaSelector() {
+    public void atualizarCargaSelector() {
         String aux;
+        cargaSelector.removeAllItems();
         for (File file : arquivosCarga) {
             aux = file.toString();
             aux = aux.replace("cargas\\", "");
@@ -84,6 +93,47 @@ public class CaminhoneiroScreen extends javax.swing.JFrame {
         }
         refreshTela();
     }
+    
+    public final void LerArquivoRelatorio(File caminhao) {
+
+        FileReader fr = null;
+        try {
+            boolean existe = caminhao.exists();
+            if (!existe) {
+                try {
+                    FileWriter fw = new FileWriter(caminhao, true);
+                } catch (IOException ex) {
+                    Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            relatorioCargas.clear();
+            fr = new FileReader(caminhao);
+            BufferedReader br = new BufferedReader(fr);
+            while (br.ready()) {
+                String[] t = br.readLine().split(",");
+                Transportadora frete = new Transportadora();
+                frete.setEnderecoClienteDestino(t[0]);
+                frete.setDistancaoCidadeDestino(Float.parseFloat(t[1]));
+                frete.setNomeClienteDestino(t[2]);
+                frete.setNomeRemetente(t[3]);
+                frete.setVolumeCarga(Float.parseFloat(t[4]));
+
+                relatorioCargas.add(frete);
+            }
+            fr.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(CadastroFreteScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        refreshTela();
+    }
 
     public void refreshTela() {
         String aux = "";
@@ -100,7 +150,8 @@ public class CaminhoneiroScreen extends javax.swing.JFrame {
         txtAreaFretesCarregados.setText(aux);
     }
 
-    public void escreverArquivo(File caminhao) throws IOException {
+
+    public void escreverArquivo(File caminhao, List<Transportadora>fretesCarregados) throws IOException {
         boolean existe = caminhao.exists();
         if (existe) {
             caminhao.delete();
@@ -350,6 +401,15 @@ public class CaminhoneiroScreen extends javax.swing.JFrame {
         File arquivo = new File("cargas/" + cargaSelector.getSelectedItem().toString());
         leituraArquivo(arquivo);
         cargaSelector.setEnabled(false);
+        carregarArquivoButton.setEnabled(false);
+        relatorio.setNomeArquivo(cargaSelector.getSelectedItem().toString());
+        try {
+            relatorio.abrirArquivoPDF();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CaminhoneiroScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        relatorio.criarCabecalho();
+        
     }//GEN-LAST:event_carregarArquivoButtonMouseClicked
 
     private void carregarArquivoButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carregarArquivoButtonMouseEntered
@@ -368,12 +428,20 @@ public class CaminhoneiroScreen extends javax.swing.JFrame {
 
     private void descargaItemButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descargaItemButtonMouseClicked
         File arquivo = new File("cargas/" + cargaSelector.getSelectedItem().toString());
+        File entregados = new File("entregados.txt");
+        LerArquivoRelatorio(entregados);
         if (citySelector.getSelectedItem().toString().equalsIgnoreCase(fretesCarregados.peek().getEnderecoClienteDestino())) {
             int resp = JOptionPane.showConfirmDialog(null, "Certeza que quer descarregar o item?");
             if (resp == JOptionPane.YES_OPTION) {
+                relatorioCargas.add(fretesCarregados.peek());
+                try {
+                    escreverArquivo(entregados,relatorioCargas);
+                } catch (IOException ex) {
+                    Logger.getLogger(CaminhoneiroScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }                
                 fretesCarregados.pop();
                 try {
-                    escreverArquivo(arquivo);
+                    escreverArquivo(arquivo,fretesCarregados);
                 } catch (IOException ex) {
                     Logger.getLogger(CaminhoneiroScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -386,8 +454,13 @@ public class CaminhoneiroScreen extends javax.swing.JFrame {
         }
         if (fretesCarregados.isEmpty()) {
             cargaSelector.setEnabled(true);
+            carregarArquivoButton.setEnabled(true);
             arquivo.delete();
-            carregarCargaSelector();
+            entregados.delete();
+            relatorio.setEntregas(relatorioCargas);
+            relatorio.criarCorpo();
+            relatorio.fecharPDF();
+            atualizarCargaSelector();
         }
     }//GEN-LAST:event_descargaItemButtonMouseClicked
 
